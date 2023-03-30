@@ -51,7 +51,7 @@ TEST_CASE("Game test")
     CHECK(p1.cardesTaken() + p2.cardesTaken() == 52); // 17
     game.playAll();
     // Player finished playing.
-    CHECK_NOTHROW(Game(Player("Jack"), p1));              // 18
-    CHECK_NOTHROW(Game(Player("John"), p2));              // 19
-    CHECK_NOTHROW(Game(Player("George"), Player("Mike"))) // 20
+    CHECK_NOTHROW(Game(Player("Jack"), p1));               // 18
+    CHECK_NOTHROW(Game(Player("John"), p2));               // 19
+    CHECK_NOTHROW(Game(Player("George"), Player("Mike"))); // 20
 }

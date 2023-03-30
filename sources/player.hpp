@@ -1,8 +1,7 @@
 #include <string>
-using namespace std;
 #include <iostream>
 #include "card.hpp"
-using namespace ariel;
+#pragma once
 
 class Player
 {

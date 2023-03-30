@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 #include "player.hpp"
-using namespace std;
+#pragma once
 
 class Game
 {
