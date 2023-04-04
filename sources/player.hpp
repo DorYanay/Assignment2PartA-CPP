@@ -1,6 +1,5 @@
 #include <string>
 #include <iostream>
-#include "card.hpp"
 #pragma once
 
 class Player

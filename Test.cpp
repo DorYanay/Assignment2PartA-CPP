@@ -1,57 +1,55 @@
-#include <sstream>
-#include <stdexcept>
-#include "sources/player.hpp"
-#include "sources/game.hpp"
-#include "sources/card.hpp"
 #include "doctest.h"
-#include <stdexcept>
-using namespace ariel;
-using namespace std;
+#include "./sources/game.hpp"
+#include "./sources/player.hpp"
+#include "./sources/card.hpp"
 
 TEST_CASE("1 player in more than 1 game")
 {
-    Player p1("Alice");
-    Player p2("Bob");
-    Game game(p1, p2);
-    Player p3("Joe");
-    CHECK_THROWS(Game(p2, p3)); // 1
+    Player player1("Alice");
+    Player player2("Bob");
+    Game game(player1, player2);
+    Player player3("Joe");
+    CHECK_THROWS(Game(player2, player3));
 }
 TEST_CASE("1 player against himself")
 {
-    Player p1("Bob");
-    CHECK_THROWS(Game(p1, p1)); // 2
+    Player player1("Bob");
+    CHECK_THROWS(Game(player1, player1));
 }
 TEST_CASE("Player Initiation")
 {
-    Player p1("Bob");
-    CHECK_THROWS(Player(NULL));  // 3
-    CHECK(p1.cardesTaken() = 0); // 4
-    CHECK(p1.stacksize() = 0);   // 5
+    Player player1("Bob");
+    CHECK_THROWS(Player(NULL));
+    CHECK(player1.cardesTaken() == 0);
+    CHECK(player1.stacksize() == 0);
 }
 TEST_CASE("Game test")
 {
-    Player p1("Alice");
-    Player p2("Bob");
-    Game game(p1, p2);
-    CHECK_NOTHROW(game.playAll()); // 6
-    CHECK_THROWS(game.playTurn()); // 7
+    Player player1("Alice");
+    Player player2("Bob");
+    Game game(player1, player2);
+    CHECK_NOTHROW(game.playAll());
+    CHECK_THROWS(game.playTurn());
+    bool EmptyStack = (player1.stacksize() == 0) && (player2.stacksize() == 0);
+    CHECK(EmptyStack);
     game.playTurn();
-    CHECK(p1.cardesTaken()); // 8
-    CHECK(p2.cardesTaken()); // 9
-    bool cardtaken = (p1.cardesTaken() > 1) || (p2.cardesTaken() > 1);
-    CHECK(cardtaken);                   // 10
-    CHECK_THROWS(game.printLastTurn()); // 11
-    CHECK_THROWS(game.printLog());      // 12
-    CHECK_THROWS(game.printStats());    // 13
-    CHECK_THROWS(game.printWiner());    // 14
-    bool EmptyStack = (p1.stacksize() == 0) && (p2.stacksize() == 0);
-    CHECK(EmptyStack); // 15
-    bool DRAW = (p1.stacksize() == 26) && (p2.stacksize() == 26);
-    CHECK(DRAW);                                      // 16
-    CHECK(p1.cardesTaken() + p2.cardesTaken() == 52); // 17
+    CHECK(player1.cardesTaken());
+    CHECK(player2.cardesTaken());
+    bool cardtaken = (player1.cardesTaken() > 1) || (player2.cardesTaken() > 1);
+    CHECK(cardtaken);
+    CHECK_THROWS(game.printLastTurn());
+    CHECK_THROWS(game.printLog());
+    CHECK_THROWS(game.printStats());
+    CHECK_THROWS(game.printWiner());
+    CHECK(player1.cardesTaken() + player2.cardesTaken() == 52);
     game.playAll();
+    SUBCASE("DRAW") // 17
+    {
+        CHECK(player2.stacksize() == 26);
+        CHECK(player1.stacksize() == 26);
+    }
     // Player finished playing.
-    CHECK_NOTHROW(Game(Player("Jack"), p1));               // 18
-    CHECK_NOTHROW(Game(Player("John"), p2));               // 19
-    CHECK_NOTHROW(Game(Player("George"), Player("Mike"))); // 20
+    CHECK_NOTHROW(Game(Player("Jack"), player1));
+    CHECK_NOTHROW(Game(Player("John"), player2));
+    CHECK_NOTHROW(Game(Player("George"), Player("Mike")));
 }
